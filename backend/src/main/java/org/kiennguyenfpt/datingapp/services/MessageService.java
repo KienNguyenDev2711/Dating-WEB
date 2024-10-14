@@ -7,4 +7,5 @@ import java.util.List;
 public interface MessageService {
     Message sendMessage(Long matchId, Long senderId, Long receiverId, String content);
     List<Message> getMessages(Long matchId);
+    List<Message> getNewMessages(Long matchId, Long lastMessageId);
 }

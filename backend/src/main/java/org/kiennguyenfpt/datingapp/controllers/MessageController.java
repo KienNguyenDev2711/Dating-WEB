@@ -95,7 +95,8 @@ public class MessageController {
 
     // Lấy danh sách tin nhắn theo matchId
     @GetMapping("/match/{matchId}")
-    public ResponseEntity<CommonResponse<List<MessageResponse>>> getMessages(@PathVariable Long matchId) {
+    public ResponseEntity<CommonResponse<List<MessageResponse>>> getMessages(@PathVariable Long matchId, @RequestParam(required = false) Long lastMessageId) {
+
         CommonResponse<List<MessageResponse>> response = new CommonResponse<>();
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -109,9 +110,16 @@ public class MessageController {
                 response.setMessage("User does not have access to these messages.");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
-
             // Lấy danh sách tin nhắn theo matchId
-            List<Message> messages = messageService.getMessages(matchId);
+            List<Message> messages;
+            if (lastMessageId != null) {
+                // Lấy tin nhắn mới hơn lastMessageId
+                messages = messageService.getNewMessages(matchId, lastMessageId);
+            } else {
+                // Lấy tất cả tin nhắn
+                messages = messageService.getMessages(matchId);
+            }
+
 
             // Chuyển danh sách tin nhắn thành danh sách MessageResponse
             List<MessageResponse> messageResponses = messages.stream().map(message -> new MessageResponse(
@@ -135,4 +143,5 @@ public class MessageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-}
+    }
+

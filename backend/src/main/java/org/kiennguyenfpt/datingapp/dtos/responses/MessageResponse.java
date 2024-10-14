@@ -18,6 +18,7 @@ public class MessageResponse {
     private String timestamp;     // Thời gian tin nhắn được gửi
     private boolean isSent;       // Trạng thái gửi tin nhắn
 
+
     @Override
     public String toString() {
         return "MessageResponse{" +

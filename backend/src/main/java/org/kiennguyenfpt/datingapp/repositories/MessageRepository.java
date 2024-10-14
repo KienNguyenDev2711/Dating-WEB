@@ -8,4 +8,5 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message, Long> {
      // Lấy tất cả tin nhắn của một match
     List<Message> findByMatch_MatchId(Long matchId);
+    List<Message> findByMatch_MatchIdAndMessageIdGreaterThan(Long matchId, Long lastMessageId);
 }

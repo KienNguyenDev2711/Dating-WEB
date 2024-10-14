@@ -60,4 +60,10 @@ public class MessageServiceImpl implements MessageService {
         // Lấy danh sách tin nhắn theo matchId
         return messageRepository.findByMatch_MatchId(matchId);
     }
+
+    @Override
+    public List<Message> getNewMessages(Long matchId, Long lastMessageId) {
+        // Lấy danh sách tin nhắn mới hơn lastMessageId
+        return messageRepository.findByMatch_MatchIdAndMessageIdGreaterThan(matchId, lastMessageId);
+    }
 }
